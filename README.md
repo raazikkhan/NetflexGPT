@@ -20,3 +20,9 @@ step-2 (after Authentication)
 --movie suggestion
 
 ## --- title and description
+
+form details
+heading
+email
+password
+button
