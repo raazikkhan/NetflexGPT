@@ -1,9 +1,25 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { BG_URL } from "../utils/constant";
 import Header from "./Header";
+import CheckValidation from "../utils/validation";
 
 function Login() {
   const [isSignIn, setIsSignIn] = useState(true);
+  const [errorMsg, setErrorMsg] = useState();
+
+  //from validation Starts here...
+
+  const email = useRef(null);
+  const password = useRef(null);
+
+  const HandlingButtonClick = () => {
+    console.log(email.current.value);
+    const message = CheckValidation(
+      email.current.value,
+      password.current.value
+    );
+    setErrorMsg(message);
+  };
 
   const toggleHandling = () => {
     setIsSignIn(!isSignIn);
@@ -22,9 +38,12 @@ function Login() {
       {/* optional dark overlay */}
       <Header />
       {/* Login Form */}
-      <form className="absolute top-1/2 left-1/2 w-1/3 p-10  rounded-xl  transform-none -translate-x-1/2 -translate-y-1/2 z-10 text-white bg-opacity-80  bg-[#000000] opacity-80">
+      <form
+        className="absolute top-1/2 left-1/2 w-1/3 p-10  rounded-xl  transform-none -translate-x-1/2 -translate-y-1/2 z-10 text-white bg-opacity-80  bg-[#000000] opacity-80"
+        onSubmit={(e) => e.preventDefault()}
+      >
         <h1 className="text-3xl py-5">{isSignIn ? "Sign In" : "Sign Up"}</h1>
-
+        {/* Only for New User */}
         {!isSignIn && (
           <input
             type="text"
@@ -32,26 +51,29 @@ function Login() {
             className="w-full p-2 mb-4 border rounded bg-[#1e2432]"
           ></input>
         )}
-
         <input
+          ref={email}
           type="text"
           placeholder="Email Address"
           className="w-full p-2 mb-4 border rounded bg-[#1e2432]"
         />
         <input
+          ref={password}
           type="password"
           placeholder="Password"
           className="w-full p-2 mb-4 border rounded bg-[#1e2432]"
         />
+        <p className="text-red-700 font-bold text-xl">{errorMsg}</p>
         <button
           className="bg-red-700 w-full p-3 mt-5 text-xl"
-          onClick={toggleHandling}
+          onClick={HandlingButtonClick}
+          type="submit"
         >
           {isSignIn ? "Sign In" : "Sign Up"}
         </button>
         <p className="py-4 cursor-pointer" onClick={toggleHandling}>
           {isSignIn
-            ? "New to Netflex? Sign Up Now"
+            ? "New to Netflix? Sign Up Now"
             : "Already Registered? Sign In Now"}
         </p>
       </form>
