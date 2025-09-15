@@ -2,6 +2,11 @@ import React, { useRef, useState } from "react";
 import { BG_URL } from "../utils/constant";
 import Header from "./Header";
 import CheckValidation from "../utils/validation";
+import { auth } from "../utils/firebase";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 
 function Login() {
   const [isSignIn, setIsSignIn] = useState(true);
@@ -19,6 +24,43 @@ function Login() {
       password.current.value
     );
     setErrorMsg(message);
+    if (message) return; // If there's an error message, do not proceed
+
+    // Proceed with sign-in or sign-up logic here
+    if (!isSignIn) {
+      //SignUp Logic here...
+      createUserWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
+        .then((userCredential) => {
+          // Signed up
+          const user = userCredential.user;
+          console.log(user);
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // ..
+          setErrorMsg(errorCode + " - " + errorMessage);
+        });
+    } else {
+      //SignIn Logic here...
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          console.log(user);
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMsg(errorCode + " - " + errorMessage);
+        });
+    }
   };
 
   const toggleHandling = () => {
