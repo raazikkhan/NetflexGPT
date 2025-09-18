@@ -7,10 +7,12 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [isSignIn, setIsSignIn] = useState(true);
   const [errorMsg, setErrorMsg] = useState();
+  const navigate = useNavigate();
 
   //from validation Starts here...
 
@@ -38,6 +40,7 @@ function Login() {
           // Signed up
           const user = userCredential.user;
           console.log(user);
+          navigate("/Dashboard");
           // ...
         })
         .catch((error) => {
@@ -53,6 +56,7 @@ function Login() {
           // Signed in
           const user = userCredential.user;
           console.log(user);
+          navigate("/Dashboard");
           // ...
         })
         .catch((error) => {
@@ -107,7 +111,7 @@ function Login() {
         />
         <p className="text-red-700 font-bold text-xl">{errorMsg}</p>
         <button
-          className="bg-red-700 w-full p-3 mt-5 text-xl"
+          className="bg-red-700 w-full p-3 mt-5 text-xl hover:bg-red-800 rounded"
           onClick={HandlingButtonClick}
           type="submit"
         >

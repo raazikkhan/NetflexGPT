@@ -1,7 +1,10 @@
-import React from "react";
+import Header from "./Header";
 
-function Dashboard() {
-  return <div>Browes</div>;
-}
-
+const Dashboard = () => {
+  return (
+    <>
+      <Header />
+    </>
+  );
+};
 export default Dashboard;

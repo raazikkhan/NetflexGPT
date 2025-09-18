@@ -6,7 +6,7 @@ step-1
 ---Login/signup form
 --redirect to browse page
 
-step-2 (after Authentication)
+step-2 (after Authentication) done
 
 ---Header
 
